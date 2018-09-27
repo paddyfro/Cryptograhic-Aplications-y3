@@ -38,11 +38,25 @@ public class CryptAppTest1BigInt {
         */
         BigInteger a = new BigInteger("4864");
         BigInteger b = new BigInteger("3458");
+        /*
+        if(b.compareTo(zero) > 0)                
+        {
+            System.out.println("bigger than zero");
+            
+        }else{
+            System.out.println("less than");
+        }
+        b = b.negate();
+*/
+        System.out.println("b : " + b);
         
         BigInteger gcd1 = euclidianAlgorithm(a, b, zero);
         System.out.println("algo1 => gcd: " + gcd1 + "\n\n");
         
         String answer = extendedEuclidianAlgorithm(a, b, zero);
+        System.out.println(answer);
+        
+        answer = calculate(a, b);
         System.out.println(answer);
     }
 
@@ -119,4 +133,36 @@ public class CryptAppTest1BigInt {
         return  "(" + d + "," + x + "," + y + ")";
     }
 
+    
+    public static String calculate(BigInteger a, BigInteger b)
+    {
+        BigInteger x = BigInteger.ZERO;
+        BigInteger lastx = BigInteger.ONE;
+        BigInteger y = BigInteger.ONE;
+        BigInteger lasty = BigInteger.ZERO;
+        while (!b.equals(BigInteger.ZERO))
+        {
+            BigInteger[] quotientAndRemainder = a.divideAndRemainder(b);
+            BigInteger quotient = quotientAndRemainder[0];
+
+            BigInteger temp = a;
+            a = b;
+            b = quotientAndRemainder[1];
+
+            temp = x;
+            x = lastx.subtract(quotient.multiply(x));
+            lastx = temp;
+
+            temp = y;
+            y = lasty.subtract(quotient.multiply(y));
+            lasty = temp;
+        }
+
+        //BigIntEuclidean result = new BigIntEuclidean();
+       // result.x = lastx;
+        //result.y = lasty;
+       // result.gcd = a;
+        //return result;
+        return "x: " + lastx + " y: " + lasty + " gcd: " + a;
+    }
 }
